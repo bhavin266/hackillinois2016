@@ -7,15 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this,LoginActivity.class);
-        startActivity(intent);
-        
+        setContentView(R.layout.activity_main);
+            Intent intent = new Intent(this, SignupActivity.class);
+            startActivity(intent);
     }
 
     @Override

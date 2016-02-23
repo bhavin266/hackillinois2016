@@ -32,4 +32,8 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.firebase:firebase-client-android:2.5.1+'
+    compile ('com.firebase:geofire:1.1.0+'){
+        exclude module: 'firebase-client-android'
+        exclude module: 'firebase-client-jvm'
+    }
 }

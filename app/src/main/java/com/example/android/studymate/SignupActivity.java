@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 
 import java.util.Map;
 
@@ -40,13 +42,28 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Firebase ref = new Firebase("https://study-hack.firebaseio.com/");
-
+                final Firebase ref = new Firebase(Constants.FIREBASE_URL);
                 ref.createUser(_emailText.getText().toString(), _passwordText.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
                     @Override
                     public void onSuccess(Map<String, Object> stringObjectMap) {
+                        //New User Creation in DB
+                        Firebase newUserRef = ref.child("users").child(String.valueOf(stringObjectMap.get("uid")));
+                      //  Firebase newPostRef = newUserRef.push();
+
+
+                        User newUser = new User (_emailText.getText().toString(),_nameText.getText().toString());
+                        newUserRef.setValue(newUser);
+                     //   System.out.print(newPostRef.getKey()+"<<<<<<<<<<<<<<<<<<<");
+
+
                         Intent interestsIntent = new Intent(SignupActivity.this,Interests.class);
-                        interestsIntent.putExtra("name",_nameText.getText());
+                        Bundle extras = new Bundle();
+                        extras.putString("uid",String.valueOf(stringObjectMap.get("uid")));
+                        extras.putString("name",_nameText.getText().toString());
+                        extras.putString("email",_emailText.getText().toString());
+                        extras.putString("pid",newUserRef.push().getKey());
+
+                        interestsIntent.putExtras(extras);
                         startActivity(interestsIntent);
                     }
 
